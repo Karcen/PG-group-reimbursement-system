@@ -328,8 +328,8 @@ const PAYMENT_TYPE_LABELS: Record<string, string> = {
 function paymentTypeLabel(type: string): string {
   return PAYMENT_TYPE_LABELS[type] || type
 }
-function typeTagColor(type: string): string {
-  const map: Record<string, string> = {
+function typeTagColor(type: string): 'success' | 'primary' | 'warning' | 'info' | 'danger' {
+  const map: Record<string, 'success' | 'primary' | 'warning' | 'info' | 'danger'> = {
     bank: 'success',
     alipay: 'primary',
     wechat: 'success',

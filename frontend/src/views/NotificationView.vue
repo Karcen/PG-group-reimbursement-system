@@ -140,12 +140,14 @@ const TYPE_LABEL: Record<string, string> = {
   new_pending: '待审批', ocr_done: 'OCR完成', ai_done: 'AI完成',
   reminder: '催办提醒', announcement: '系统公告',
 }
-const TYPE_TAG: Record<string, string> = {
+const TYPE_TAG: Record<string, 'success' | 'danger' | 'warning' | 'info' | 'primary'> = {
   approved: 'success', rejected: 'danger', new_pending: 'warning',
   reminder: 'warning', announcement: 'info',
 }
 function typeLabel(t: string) { return TYPE_LABEL[t] || t }
-function typeTagType(t: string) { return TYPE_TAG[t] || '' }
+function typeTagType(t: string): 'success' | 'danger' | 'warning' | 'info' | 'primary' {
+  return TYPE_TAG[t] ?? 'info'
+}
 
 onMounted(() => loadData())
 </script>

@@ -37,7 +37,8 @@ class ApprovalRecord(Base, TimestampMixin):
         Integer, ForeignKey("users.id", ondelete="RESTRICT"), comment="操作人用户ID"
     )
     action: Mapped[ApprovalAction] = mapped_column(
-        Enum(ApprovalAction, native_enum=False), comment="审批动作"
+        Enum(ApprovalAction, native_enum=False),
+        comment="审批动作"
     )
     step: Mapped[int] = mapped_column(Integer, default=1, comment="操作发生时的审批步骤号")
     comment: Mapped[str | None] = mapped_column(Text, nullable=True, comment="审批意见/驳回原因")

@@ -34,7 +34,8 @@ class Notification(Base, TimestampMixin):
         Integer, ForeignKey("users.id", ondelete="CASCADE"), index=True, comment="接收用户ID"
     )
     type: Mapped[NotificationType] = mapped_column(
-        Enum(NotificationType, native_enum=False), comment="通知类型"
+        Enum(NotificationType, native_enum=False),
+        comment="通知类型"
     )
     title: Mapped[str] = mapped_column(String(128), comment="通知标题")
     content: Mapped[str | None] = mapped_column(Text, nullable=True, comment="通知正文")

@@ -45,8 +45,8 @@
         </el-table-column>
         <el-table-column label="状态" width="110" align="center">
           <template #default="{ row }">
-            <el-tag :type="ReimbursementStatusType[row.status]" size="small">
-              {{ ReimbursementStatusLabel[row.status] }}
+            <el-tag :type="(ReimbursementStatusType[(row as ReimbursementListItem).status] as any)" size="small">
+              {{ ReimbursementStatusLabel[(row as ReimbursementListItem).status] }}
             </el-tag>
           </template>
         </el-table-column>

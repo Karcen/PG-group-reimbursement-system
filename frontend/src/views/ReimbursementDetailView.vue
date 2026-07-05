@@ -4,7 +4,7 @@
     <div class="page-header">
       <el-button icon="ArrowLeft" link @click="$router.back()">返回</el-button>
       <h2 class="page-title">报销申请详情</h2>
-      <el-tag v-if="reimb" :type="ReimbursementStatusType[reimb.status]">
+      <el-tag v-if="reimb" :type="(ReimbursementStatusType[reimb.status] as any)">
         {{ ReimbursementStatusLabel[reimb.status] }}
       </el-tag>
     </div>
@@ -70,7 +70,7 @@
         <el-table v-else :data="invoices" border size="small">
           <el-table-column prop="page_number" label="页码" width="60" align="center" />
           <el-table-column label="票据类型" width="140">
-            <template #default="{ row }">{{ DocumentTypeLabel[row.document_type] || row.document_type }}</template>
+            <template #default="{ row }">{{ DocumentTypeLabel[(row as InvoiceListItem).document_type] || (row as InvoiceListItem).document_type }}</template>
           </el-table-column>
           <el-table-column prop="invoice_number" label="发票号码" width="130" show-overflow-tooltip />
           <el-table-column prop="date" label="开票日期" width="110" />
@@ -104,7 +104,7 @@
           </el-table-column>
           <el-table-column label="操作" width="60" fixed="right">
             <template #default="{ row }">
-              <el-button link size="small" @click="previewInvoice(row)">预览</el-button>
+              <el-button link size="small" @click="previewInvoice(row as InvoiceListItem)">预览</el-button>
             </template>
           </el-table-column>
         </el-table>

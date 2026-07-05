@@ -56,10 +56,10 @@
         </el-table-column>
         <el-table-column label="操作" width="180" fixed="right">
           <template #default="{ row }">
-            <el-button link size="small" @click="openEditDialog(row)">编辑</el-button>
-            <el-button link size="small" @click="openResetPwdDialog(row)">重置密码</el-button>
-            <el-button link :type="row.is_active ? 'danger' : 'success'" size="small" @click="toggleActive(row)">
-              {{ row.is_active ? '禁用' : '启用' }}
+            <el-button link size="small" @click="openEditDialog(row as UserOut)">编辑</el-button>
+            <el-button link size="small" @click="openResetPwdDialog(row as UserOut)">重置密码</el-button>
+            <el-button link :type="(row as UserOut).is_active ? 'danger' : 'success'" size="small" @click="toggleActive(row as UserOut)">
+              {{ (row as UserOut).is_active ? '禁用' : '启用' }}
             </el-button>
           </template>
         </el-table-column>
@@ -232,9 +232,13 @@ async function toggleActive(user: UserOut) {
 
 function formatDate(str: string) { return dayjs(str).format('YYYY-MM-DD') }
 const ROLE_LABEL: Record<string, string> = { student: '学生', teacher: '教师', admin: '管理员' }
-const ROLE_TAG: Record<string, string> = { student: '', teacher: 'warning', admin: 'danger' }
+const ROLE_TAG: Record<string, 'info' | 'warning' | 'danger' | 'success' | 'primary'> = {
+  student: 'info', teacher: 'warning', admin: 'danger'
+}
 function roleLabel(r: string) { return ROLE_LABEL[r] || r }
-function roleTagType(r: string) { return ROLE_TAG[r] || '' }
+function roleTagType(r: string): 'info' | 'warning' | 'danger' | 'success' | 'primary' {
+  return ROLE_TAG[r] ?? 'info'
+}
 
 onMounted(() => loadData())
 </script>

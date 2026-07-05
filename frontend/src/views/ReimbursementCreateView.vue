@@ -63,7 +63,8 @@
       </template>
 
       <div v-if="invoices.length === 0" class="empty-tip">
-        <el-spin /> &nbsp; 正在识别中，请稍候...
+        <el-icon class="is-loading" size="20"><Loading /></el-icon>
+        &nbsp; 正在识别中，请稍候...
       </div>
       <div v-else>
         <InvoiceEditCard

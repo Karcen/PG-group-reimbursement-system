@@ -3,15 +3,11 @@
 > vite --host 0.0.0.0 --port 5173
 
 
-  VITE v6.4.3  ready in 219 ms
+  VITE v6.4.3  ready in 299 ms
 
   ➜  Local:   http://localhost:5173/
   ➜  Network: http://192.168.3.1:5173/
   ➜  Network: http://192.168.31.234:5173/
   ➜  Network: http://192.168.2.1:5173/
-10:53:48 AM [vite] (client) hmr update /src/layouts/MainLayout.vue
-10:54:18 AM [vite] (client) hmr update /src/layouts/MainLayout.vue?vue&type=style&index=0&scoped=22686b16&lang.css
-11:02:55 AM [vite] (client) page reload src/main.ts
-11:02:55 AM [vite] (client) hmr update /src/views/DashboardView.vue, /src/views/ReimbursementListView.vue
-11:02:55 AM [vite] vite.config.ts changed, restarting server...
-11:02:55 AM [vite] server restarted.
+11:56:56 AM [vite] (client) ✨ new dependencies optimized: element-plus/es/components/empty/style/css, element-plus/es/components/skeleton/style/css, element-plus/es/components/radio-group/style/css, element-plus/es/components/radio-button/style/css
+11:56:56 AM [vite] (client) ✨ optimized dependencies changed. reloading

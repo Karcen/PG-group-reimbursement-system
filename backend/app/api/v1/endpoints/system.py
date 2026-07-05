@@ -32,6 +32,7 @@ async def get_config(
         "app_name": settings.APP_NAME,
         "max_upload_size_mb": settings.MAX_UPLOAD_SIZE_MB,
         "amount_diff_threshold": settings.AMOUNT_DIFF_THRESHOLD,
+        "payment_record_threshold": settings.PAYMENT_RECORD_THRESHOLD,
         "approval_timeout_hours": settings.APPROVAL_TIMEOUT_HOURS,
         "approval_reminder_interval_hours": settings.APPROVAL_REMINDER_INTERVAL_HOURS,
         "ollama_model": settings.OLLAMA_MODEL,

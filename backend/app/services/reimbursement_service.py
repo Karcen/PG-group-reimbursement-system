@@ -82,6 +82,17 @@ class ReimbursementService:
         reimbursement.ocr_total_amount = ocr_total
         self._db.add(reimbursement)
 
+        # ── 发票查重 ──────────────────────────────────────────────────────────
+        # 遍历本申请的所有发票，逐一检查是否已在其他申请中报销过
+        invoices = await self._invoice_repo.list_by_reimbursement(reimbursement.id)
+        for inv in invoices:
+            await self._dup_svc.check(
+                invoice_number=inv.invoice_number or inv.ocr_invoice_number,
+                invoice_code=inv.invoice_code or inv.ocr_invoice_code,
+                ticket_number=inv.ticket_number or inv.ocr_ticket_number,
+                exclude_reimbursement_id=reimbursement.id,
+            )
+
         # 金额差值校验
         diff = abs(data.declared_amount - ocr_total)
         amount_threshold = settings.AMOUNT_DIFF_THRESHOLD

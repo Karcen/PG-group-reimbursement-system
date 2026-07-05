@@ -97,7 +97,11 @@ http.interceptors.response.use(
       } catch (refreshError) {
         processQueue(refreshError, null)
         const { useAuthStore } = await import('@/stores/auth')
-        useAuthStore()._clearState?.()
+        const store = useAuthStore()
+        // 强制清除 Token（不走 API logout，直接跳转登录页）
+        store.accessToken = null
+        store.refreshToken = null
+        store.user = null
         window.location.href = '/login'
         return Promise.reject(refreshError)
       } finally {
