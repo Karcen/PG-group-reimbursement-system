@@ -1,0 +1,63 @@
+version: "3.9"
+
+# 实验室报销管理系统 - Docker Compose 生产配置
+# 包含：后端 API、前端 Nginx、文件存储卷
+
+services:
+  # ─────────────────────────────────────────
+  # 后端服务（FastAPI + Uvicorn）
+  # ─────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../docker/Dockerfile.backend
+    container_name: reimbursement-backend
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=sqlite:////data/database/reimbursement.db
+      - STORAGE_ROOT=/data/storage
+      - LOG_DIR=/data/logs
+      - SECRET_KEY=${SECRET_KEY:-change-me-in-production-32chars}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-qwen3}
+      - MAX_UPLOAD_SIZE_MB=${MAX_UPLOAD_SIZE_MB:-50}
+      - AMOUNT_DIFF_THRESHOLD=${AMOUNT_DIFF_THRESHOLD:-1.0}
+    volumes:
+      - app-data:/data
+      - ./backend:/app          # 开发时启用热重载（生产环境可去掉）
+    ports:
+      - "8000:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  # Linux 宿主机网络穿透
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # ─────────────────────────────────────────
+  # 前端服务（Nginx 静态托管）
+  # ─────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../docker/Dockerfile.frontend
+    container_name: reimbursement-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  app-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DATA_DIR:-./data}
